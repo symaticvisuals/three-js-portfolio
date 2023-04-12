@@ -74,7 +74,19 @@ fontLoader.load("/fonts/helvetiker_regular.typeface.json", (font) => {
   const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45);
   console.time("donuts");
 
-  for (let i = 0; i < 400; i++) {
+  // increase the number of donuts with the debugger
+  let donutCount = 300;
+  // add a material dropdown change event listener
+  gui
+    .add({ material: "normal" }, "material", ["normal", "matcap"])
+    .onChange((material) => {
+      text.material =
+        material === "normal"
+          ? new THREE.MeshNormalMaterial()
+          : new THREE.MeshMatcapMaterial({ matcap: matCapTexture });
+    });
+
+  for (let i = 0; i < donutCount; i++) {
     const donut = new THREE.Mesh(donutGeometry, donutMaterial);
     donut.position.x = (Math.random() - 0.5) * 30;
     donut.position.y = (Math.random() - 0.5) * 30;
